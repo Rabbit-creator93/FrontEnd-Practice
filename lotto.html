@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Lotto Generator</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8;
+
+            /* Lotto Ball Colors */
+            --ball-yellow: #fbc400;
+            --ball-blue: #69c8f2;
+            --ball-red: #ff7272;
+            --ball-grey: #aaa;
+            --ball-green: #b0d840;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Lotto Balls Container */
+        .balls-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            min-height: 60px;
+        }
+
+        .ball {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: inset -4px -4px 8px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(20px) scale(0.5);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Color Ranges */
+        .ball.range-10 {
+            background: var(--ball-yellow);
+        }
+
+        .ball.range-20 {
+            background: var(--ball-blue);
+        }
+
+        .ball.range-30 {
+            background: var(--ball-red);
+        }
+
+        .ball.range-40 {
+            background: var(--ball-grey);
+        }
+
+        .ball.range-max {
+            background: var(--ball-green);
+        }
+
+        /* Action Button */
+        .btn-generate {
+            background: linear-gradient(135deg, #38bdf8 0%, #1d4ed8 100%);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 14px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(56, 189, 248, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .btn-generate:active {
+            transform: translateY(1px);
+        }
+
+        /* History Section */
+        .history-section {
+            margin-top: 3rem;
+            text-align: left;
+        }
+
+        .history-header {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            padding: 12px 16px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .history-balls {
+            display: flex;
+            gap: 6px;
+        }
+
+        .history-ball {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .history-date {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .ball {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .balls-container {
+                gap: 8px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="glass-card">
+            <h1>Lotto 6/45</h1>
+            <p class="subtitle">오늘의 행운을 숫자로 확인해보세요</p>
+
+            <div id="balls-container" class="balls-container">
+                <!-- Balls will appear here -->
+                <p style="color: var(--text-secondary); font-style: italic;">버튼을 눌러 번호를 생성하세요</p>
+            </div>
+
+            <button id="generate-btn" class="btn-generate">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                    </path>
+                </svg>
+                번호 생성하기
+            </button>
+
+            <div class="history-section">
+                <div class="history-header">
+                    <span>최근 생성 기록</span>
+                    <span id="clear-history"
+                        style="cursor: pointer; color: var(--accent-color); font-size: 0.8rem;">지우기</span>
+                </div>
+                <div id="history-list" class="history-list">
+                    <!-- History items -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ballsContainer = document.getElementById('balls-container');
+        const generateBtn = document.getElementById('generate-btn');
+        const historyList = document.getElementById('history-list');
+        const clearHistoryBtn = document.getElementById('clear-history');
+
+        // Range color logic
+        function getRangeClass(num) {
+            if (num <= 10) return 'range-10';
+            if (num <= 20) return 'range-20';
+            if (num <= 30) return 'range-30';
+            if (num <= 40) return 'range-40';
+            return 'range-max';
+        }
+
+        function generateNumbers() {
+            const numbers = [];
+            while (numbers.length < 6) {
+                const r = Math.floor(Math.random() * 45) + 1;
+                if (numbers.indexOf(r) === -1) numbers.push(r);
+            }
+            return numbers.sort((a, b) => a - b);
+        }
+
+        function displayBalls(numbers) {
+            ballsContainer.innerHTML = '';
+            numbers.forEach((num, index) => {
+                const ball = document.createElement('div');
+                ball.className = `ball ${getRangeClass(num)}`;
+                ball.textContent = num;
+                ball.style.animationDelay = `${index * 0.1}s`;
+                ballsContainer.appendChild(ball);
+            });
+        }
+
+        function saveToHistory(numbers) {
+            let history = JSON.parse(localStorage.getItem('lottoHistory') || '[]');
+            const newItem = {
+                numbers: numbers,
+                date: new Date().toLocaleString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+            };
+            history.unshift(newItem);
+            history = history.slice(0, 5); // Keep last 5
+            localStorage.setItem('lottoHistory', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const history = JSON.parse(localStorage.getItem('lottoHistory') || '[]');
+            historyList.innerHTML = history.length === 0
+                ? '<p style="color: var(--text-secondary); font-size: 0.8rem; text-align: center;">기록이 없습니다</p>'
+                : '';
+
+            history.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+
+                let ballsHtml = '<div class="history-balls">';
+                item.numbers.forEach(num => {
+                    ballsHtml += `<div class="history-ball ${getRangeClass(num)}">${num}</div>`;
+                });
+                ballsHtml += '</div>';
+
+                div.innerHTML = `
+                    ${ballsHtml}
+                    <span class="history-date">${item.date}</span>
+                `;
+                historyList.appendChild(div);
+            });
+        }
+
+        generateBtn.addEventListener('click', () => {
+            const numbers = generateNumbers();
+            displayBalls(numbers);
+            saveToHistory(numbers);
+        });
+
+        clearHistoryBtn.addEventListener('click', () => {
+            localStorage.removeItem('lottoHistory');
+            renderHistory();
+        });
+
+        // Initial render
+        renderHistory();
+    </script>
+</body>
+
+</html>
