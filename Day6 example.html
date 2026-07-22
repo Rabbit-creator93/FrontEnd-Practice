@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day6</title>
+    <style>
+        .link1:link {
+            color: orange
+        }
+
+        .link2:visited {
+            color: green
+        }
+
+        .link3:hover {
+            color: aliceblue
+        }
+
+        .link4:active {
+            color: red
+        }
+
+        input:focus {
+            color: red
+        }
+
+        input:checked+label {
+            color: red
+        }
+    </style>
+</head>
+
+<body>
+    <h1>가상 클래스 선택자</h1>
+    <a href="https://section.cafe.naver.com/ca-fe/home" target="_blank" class="link1">link</a><br>
+    <a href="https://www.hankyung.com/" target="_blank" class="link2">visited</a><br>
+    <a href="https://www.naver.com" target="_blank" class="link3">hover</a><br>
+    <a href="https://www.naver.com" target="_blank" class="link4">active</a><br>
+    <p>focus <input type="text"></p>
+    <input type="checkbox" checked><label>성별</label>
+</body>
+
+</html>

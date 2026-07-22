@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day5</title>
+    <style>
+        h1 {
+            color:
+                orange
+        }
+
+        #h2 {
+            color:
+                red;
+        }
+
+        .h2 {
+            color:
+                blue
+        }
+
+        a[href="https://www.naver.com"] {
+            color:
+                brown;
+            font-size:
+                20px
+        }
+
+        h3,
+        h4 {
+            color:
+                red
+        }
+
+        div>h5 {
+            color:
+                blueviolet
+        }
+
+        dl dt {
+            color:
+                rgb(0,
+                    255,
+                    30)
+        }
+
+        dt+dd {
+            color:
+                blueviolet
+        }
+
+        h5~h6 {
+            color:
+                blue
+        }
+
+        strong::before {
+            content:
+                "new";
+            color:
+                blue;
+        }
+
+        strong::after {
+            content:
+                "hot";
+            color:
+                red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>h1 tag(태그 선택자)</h1><br>
+    <h2 id="h2">h2 tag(id 선택자 : 중복불가)</h2><br>
+    <h2 class="h2">h2 tag(class 선택자 : 중복가능)</h2>
+    <h2 class="h2">h2 tag(class 선택자 : 중복가능)</h2><br>
+    <h3>h3 tag(그룹 선택자)</h3>
+    <h4>h4 tag(그룹 선택자)</h4><br>
+
+    <div>
+        <h5>h5 tag(자식선택자 : div 태그의 자식 태그 중 h5태그만 선택자로 함)</h5>
+    </div>
+    <h5>h5 tag(같은 h5태그이지만 div 태그의 자식 태그가 아니므로 선택자가 아님)</h5><br>
+    <p> p tag </p><br>
+    <a href="https://www.naver.com" target="_blank" title="네이버">네이버 : 기본 속성 선택자</a><br><br>
+    <dl>
+        <dt>자식 선택자</dt>
+        <dd>인접 형제 선택자(인접형제O)</dd>
+        <dd>인접 형제 선택자(인접형제X)</dd>
+    </dl>
+    <h5>h5 tag</h5>
+    <h6>h6 tag(일반 형제 선택자)</h6>
+    <h6>h6 tag(일반 형제 선택자)</h6>
+    <strong>가상 요소 선택자</strong><br><br>
+
+</body>
+
+</html>
